@@ -24,12 +24,11 @@ graph.add_edge(START, 'chat_node')
 graph.add_edge('chat_node',END)
 
 chat = graph.compile(checkpointer=check_pt)
+con= {'configurable':{'thread_id':'thread 1'}}
+resp = chat.invoke(
+    {'messages': [HumanMessage(content='Hi, My name is NP')]},
+    config= con,
+    
+)
 
-# for msg_chunk, metadata in chat.stream(
-#     {'messages': [HumanMessage(content='Provide me the receipe to make CHeesyPasta')]},
-#     config= {'configurable':{'thread_id':'thread 1'}},
-#     stream_mode='messages'
-# ):
-#     if msg_chunk.content:
-#         print(msg_chunk.content, end=' ', flush=True)
-
+print(chat.get_state(config=con).values['messages'])
